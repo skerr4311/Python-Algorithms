@@ -1,16 +1,12 @@
+import sys
 def main():
-    f = open("text.txt", "r") #open a text file
-    contents = f.readlines()
+    contents = sys.stdin.readlines()
     arr = []
-    i=1
-    for x in contents:
-        x = x.rstrip('\n')
-        x = x.rstrip('#')
-        arr.append(x)
-    for z in arr:
-        print(z)
-        if i != len(arr):
-            print('\n')
-            i=i+1
+    for i in contents:
+        text = i.rstrip("\n")
+        text = text.rstrip("#")
+        arr.append(text)
+    for x in arr:
+        print(x)
 if __name__=="__main__":
     main()

@@ -1,6 +1,3 @@
-This will close the instance of the file guru99.txt stored#
-Here is the result after code execution#
-When you click on your text file in our case "guru99.txt" it will look something like this#
 blah#
 45 67#
 ddgfh fjhg gjkhgk#

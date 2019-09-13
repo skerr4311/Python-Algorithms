@@ -30,6 +30,6 @@ while pointer <= len(contents)-1:
         tempArr = contents[pointer].split()
     pointer += 1
     shellSort(tempArr)
-    for item in range(0, len(tempArr)-1):
+    for item in range(0, len(tempArr)):
         print(tempArr[item]),
-    print(tempArr[len(tempArr)-1])
+    print('')

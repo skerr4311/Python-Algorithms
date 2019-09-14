@@ -1,6 +1,7 @@
 import sys
 contents = sys.stdin.readlines()
 pointer = 0
+contents_length = (len(contents)) - 1
 
 def shellSort(arr):
     length = len(arr)
@@ -32,4 +33,9 @@ while pointer <= len(contents)-1:
     shellSort(tempArr)
     for item in range(0, len(tempArr)):
         print(tempArr[item]),
-    print('')
+    if contents_length != 0:
+        print(' ')
+        contents_length -= 1
+    else:
+        print(' '),
+sys.exit()

@@ -6,12 +6,19 @@ def toInt(arr):
     arr = list(map(int, arr))
     return arr
 
+def findMax(arr):
+    maxInt = 0
+    for i in arr:
+        if i > maxInt:
+            maxInt = i
+    return maxInt
+
 def BFS(graph):
     length = len(graph)
     diameterArr = []
     for s in graph:
         pred = ["null"]*length
-        d = ([""]*length)
+        d = [0]*length
         q = []
         color = ["WHITE"]*length
         if color[s] == "WHITE":
@@ -30,8 +37,9 @@ def BFS(graph):
                         q.append(v)
                 color[u] = "BLACK"
             #end of breadth-first search visit algorithm
-        diameterArr.append(max(d))
-    return (max(diameterArr))
+        print(d, findMax(d))
+        diameterArr.append(findMax(d))
+    return (findMax(diameterArr))
 
 def diameterCheck(graph):
     for s in graph:

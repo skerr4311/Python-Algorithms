@@ -6,42 +6,39 @@ def toInt(arr):
     arr = list(map(int, arr))
     return arr
 
-def traverse(graph):
-    color = ["WHITE"]*len(graph)
-    pred = [""]*len(graph)
+def BFS(graph):
+    length = len(graph)
+    color = ["WHITE"]*length
+    pred = ["null"]*length
+    d = [""]*length
+    q = []
+    maxNode_counter = 0
     for s in graph:
         if color[s] == "WHITE":
+            #breadth-first search visit algorithm
             color[s] = "GREY"
-            pred[s] = "null"
-            while "GREY" in color:
-                u = color.index("GREY")
+            d[s] = 0
+            q.append(s)
+            node_counter = 1
+            while q != []:
+                u = q.pop(0)
                 node = graph[u]
-                if node == []:
-                    pred[u] = "no neighbours"
-                    color[u] = "BLUE" 
                 for v in node:
                     if color[v] == "WHITE":
                         color[v] = "GREY"
                         pred[v] = u
-                    else:
-                        color[u] = "BLACK"
-    return (pred)
+                        d[v] = d[u]+1
+                        q.append(v)
+                        node_counter += 1
+                color[u] = "BLACK"
+            if node_counter > maxNode_counter:
+                maxNode_counter = node_counter
+            #end of breadth-first search visit algorithm
+    return (maxNode_counter)
 
 while contents != 0:
     DicGraph = {x: toInt((sys.stdin.readline()).split()) for x in range(contents)}
-    component = traverse(DicGraph)
-    maxComponent = 0
-    countComponent = 0
-    for c in component:
-        if c == "null":
-            if countComponent > maxComponent:
-                maxComponent = countComponent
-            countComponent = 0
-            countComponent += 1
-        elif isinstance(c, int):
-            countComponent += 1
-    if countComponent > maxComponent:
-        maxComponent = countComponent
-    print("Graph "+str(graphNum)+" has a component of order "+str(maxComponent)+".")
+    component = BFS(DicGraph)
+    print("Graph "+str(graphNum)+" has a component of order "+str(component)+".")
     graphNum += 1
     contents = int(sys.stdin.readline())

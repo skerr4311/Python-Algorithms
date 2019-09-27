@@ -6,19 +6,19 @@ def toInt(arr):
     arr = list(map(int, arr))
     return arr
 
-def BFS(i, graph):
+def BFS(graph):
     length = len(graph)
-    color = ["WHITE"]*length
-    pred = ["null"]*length
-    d = ([""]*length)
-    q = []
+    diameterArr = []
     for s in graph:
+        pred = ["null"]*length
+        d = ([""]*length)
+        q = []
+        color = ["WHITE"]*length
         if color[s] == "WHITE":
             #breadth-first search visit algorithm
             color[s] = "GREY"
             d[s] = 0
             q.append(s)
-            node_counter = 1
             while q != []:
                 u = q.pop(0)
                 node = graph[u]
@@ -28,20 +28,16 @@ def BFS(i, graph):
                         pred[v] = u
                         d[v] = d[u]+1
                         q.append(v)
-                        node_counter += 1
                 color[u] = "BLACK"
             #end of breadth-first search visit algorithm
-    return (d)
+        diameterArr.append(max(d))
+    return (max(diameterArr))
 
 def diameterCheck(graph):
-    diameterArr = []
     for s in graph:
         if graph[s] == []:
             return 0
-    for i in range(0, contents):
-        component = BFS(i, graph)
-        diameterArr.append(max(component))
-    return(diameterArr)
+    return(BFS(graph))
 
 while contents != 0:
     DicGraph = {x: toInt((sys.stdin.readline()).split()) for x in range(contents)}

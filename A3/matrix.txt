@@ -75,7 +75,7 @@
 0 0 1 1 1 0 1 1 0 0
 1 1 1 0 1 1 0 1 0 0
 5
-0 1 1 1 1                               Graph 8 has diameter 1.
+0 1 1 1 1                               Graph 8 has diameter 2.
 1 0 0 1 1
 1 0 0 1 1
 1 1 1 0 1

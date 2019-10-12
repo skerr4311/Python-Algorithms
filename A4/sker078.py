@@ -15,11 +15,16 @@ def Distance(lat1, lon1, lat2, lon2):
 
 def Dijkstra(matrix, length):
     priorityQ = []
+    path = []
+    for m in range(0, length):
+        path.append([0])
     colour = ["WHITE"]*length
     dist = [0]*length
     colour[0] = "GREY"
     priorityQ.append([0,0])
     while priorityQ != []:
+        priorityQ.sort(key = lambda x: x[1])
+        #print(priorityQ)
         t1 = priorityQ[0][1] #value to city
         u = priorityQ[0][0] #pointer to city
         priorityQ.pop(0)
@@ -35,6 +40,7 @@ def Dijkstra(matrix, length):
                             item[1] = t2
         colour[u] = "BLACK"
         dist[u] = t1
+        print(dist)
     return(dist)
 
 
@@ -66,8 +72,18 @@ while case_index != cases:
     cities = int(sys.stdin.readline()) #number of cities
     DicGraph = {x: sys.stdin.readline().split() for x in range(cities)}
     gass = int(sys.stdin.readline())
-    adjMatrix = AdjacencyMatrix(cities, gass, DicGraph)
-    print(Dijkstra(adjMatrix, cities))
+    #adjMatrix = AdjacencyMatrix(cities, gass, DicGraph)
+    test = [[float('inf'), 4, 1, float('inf'), float('inf')],
+    [4, float('inf'), 5, 2, float('inf')],
+    [1, 5, float('inf'), 2, 2],
+    [float('inf'), 2, 2, float('inf'), float('inf')],
+    [float('inf'), float('inf'), 2, float('inf'), float('inf')]]
+    #distance = Dijkstra(adjMatrix, cities)
+    distance = Dijkstra(test, 5)
+    if distance[-1] == float('inf'):
+        print("Not possible")
+    else:
+        print(distance)
     #send it off to shortest path algorithm
     case_index += 1
 

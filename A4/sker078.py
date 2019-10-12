@@ -2,10 +2,14 @@ import sys
 from math import sin, cos, sqrt, atan2, radians
 
 def Distance(lat1, lon1, lat2, lon2):
-    R = 6371
+    R = 6371.0
+    lat1 = radians(lat1)
+    lon1 = radians(lon1)
+    lat2 = radians(lat2)
+    lon2 = radians(lon2)
 
-    dlon = radians(lon2) - radians(lon1)
-    dlat = radians(lat2) - radians(lat1)
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
 
     a = abs(sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2)
 
@@ -96,6 +100,8 @@ while case_index != cases:
     adjMatrix = AdjacencyMatrix(cities, gass, DicGraph)
     distance = Dijkstra(adjMatrix, cities, DicGraph)
     print(distance)
+    for i in adjMatrix:
+        print(i)
     #send it off to shortest path algorithm
     case_index += 1
 

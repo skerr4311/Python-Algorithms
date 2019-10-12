@@ -18,28 +18,24 @@ def Distance(lat1, lon1, lat2, lon2):
     return(R*c)
 
 def pathToStrng(graph, path):
-    city = graph[len(path)-1][2]
-    pred = path[-1]
-    answer = city
+    pred = len(path)-1
+    answer = ""
     while pred != 0:
         city = graph[pred][2]
         pred = path[pred]
         answer = city + ", "+ answer
     answer = graph[0][2] + ", " + answer
-    return(answer)
+    return(answer.rstrip(", "))
 
 def Dijkstra(matrix, length, DicGraph):
     priorityQ = []
     path = [0]*length
-    # for m in range(0, length):
-    #     path.append([0])
     colour = ["WHITE"]*length
     dist = [0]*length
     colour[0] = "GREY"
     priorityQ.append([0,0])
     while priorityQ != []:
         priorityQ.sort(key = lambda x: x[1])
-        #print(priorityQ)
         t1 = priorityQ[0][1] #value to city
         u = priorityQ[0][0] #pointer to city
         priorityQ.pop(0)
@@ -50,7 +46,7 @@ def Dijkstra(matrix, length, DicGraph):
                 path[x] = u
                 priorityQ.append([x, t2])
             elif colour[x] == "GREY":
-                for item in priorityQ: # need to make this more efficient
+                for item in priorityQ: # need to make this more efficient "edit: added break"
                     if item[0] == x:
                         if item[1] > t2:
                             item[1] = t2
@@ -58,11 +54,6 @@ def Dijkstra(matrix, length, DicGraph):
                         break
         colour[u] = "BLACK"
         dist[u] = t1
-        # print(dist)
-        # print(priorityQ)
-        # print(colour)
-        # print(path)
-        # print("-------")
     if dist[-1] == float('inf'):
         return("Not possible")
     else:
@@ -91,17 +82,27 @@ def AdjacencyMatrix(length, gass, DicGraph):
                     adjMatrix[x][y] = dist
     return adjMatrix
 
+def createDic():
+    DicGraph = {}
+    for x in range(cities):
+        line = sys.stdin.readline().split()
+        tempName = line[2:]
+        name = ""
+        for i in tempName:
+            name = name + i + " "
+        arr = [line[0], line[1], name.rstrip()]
+        DicGraph.update({x: arr})
+    return(DicGraph)
+
 cases = int(sys.stdin.readline()) #number of tests
 case_index = 0
 while case_index != cases:
     cities = int(sys.stdin.readline()) #number of cities
-    DicGraph = {x: sys.stdin.readline().split() for x in range(cities)}
+    DicGraph = createDic()
     gass = int(sys.stdin.readline())
     adjMatrix = AdjacencyMatrix(cities, gass, DicGraph)
     distance = Dijkstra(adjMatrix, cities, DicGraph)
     print(distance)
-    for i in adjMatrix:
-        print(i)
     #send it off to shortest path algorithm
     case_index += 1
 

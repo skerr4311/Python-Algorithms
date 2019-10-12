@@ -13,11 +13,22 @@ def Distance(lat1, lon1, lat2, lon2):
 
     return(R*c)
 
-def Dijkstra(matrix, length):
+def pathToStrng(graph, path):
+    city = graph[len(path)-1][2]
+    pred = path[-1]
+    answer = city
+    while pred != 0:
+        city = graph[pred][2]
+        pred = path[pred]
+        answer = city + ", "+ answer
+    answer = graph[0][2] + ", " + answer
+    return(answer)
+
+def Dijkstra(matrix, length, DicGraph):
     priorityQ = []
-    path = []
-    for m in range(0, length):
-        path.append([0])
+    path = [0]*length
+    # for m in range(0, length):
+    #     path.append([0])
     colour = ["WHITE"]*length
     dist = [0]*length
     colour[0] = "GREY"
@@ -32,16 +43,26 @@ def Dijkstra(matrix, length):
             t2 = t1 + matrix[u][x]
             if colour[x] == "WHITE":
                 colour[x] = "GREY"
+                path[x] = u
                 priorityQ.append([x, t2])
             elif colour[x] == "GREY":
                 for item in priorityQ: # need to make this more efficient
                     if item[0] == x:
                         if item[1] > t2:
                             item[1] = t2
+                            path[x] = u
+                        break
         colour[u] = "BLACK"
         dist[u] = t1
-        print(dist)
-    return(dist)
+        # print(dist)
+        # print(priorityQ)
+        # print(colour)
+        # print(path)
+        # print("-------")
+    if dist[-1] == float('inf'):
+        return("Not possible")
+    else:
+        return(pathToStrng(DicGraph, path))
 
 
 
@@ -72,18 +93,9 @@ while case_index != cases:
     cities = int(sys.stdin.readline()) #number of cities
     DicGraph = {x: sys.stdin.readline().split() for x in range(cities)}
     gass = int(sys.stdin.readline())
-    #adjMatrix = AdjacencyMatrix(cities, gass, DicGraph)
-    test = [[float('inf'), 4, 1, float('inf'), float('inf')],
-    [4, float('inf'), 5, 2, float('inf')],
-    [1, 5, float('inf'), 2, 2],
-    [float('inf'), 2, 2, float('inf'), float('inf')],
-    [float('inf'), float('inf'), 2, float('inf'), float('inf')]]
-    #distance = Dijkstra(adjMatrix, cities)
-    distance = Dijkstra(test, 5)
-    if distance[-1] == float('inf'):
-        print("Not possible")
-    else:
-        print(distance)
+    adjMatrix = AdjacencyMatrix(cities, gass, DicGraph)
+    distance = Dijkstra(adjMatrix, cities, DicGraph)
+    print(distance)
     #send it off to shortest path algorithm
     case_index += 1
 

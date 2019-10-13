@@ -67,13 +67,13 @@ def AdjacencyMatrix(length, gass, DicGraph):
         adjMatrix.append([0]*length)
     # populate the matrix
     for y in range(0, length):
-        lat1 = float(DicGraph[y][0])
-        lng1 = float(DicGraph[y][1])
+        lat1 = DicGraph[y][0]
+        lng1 = DicGraph[y][1]
         for x in range(0, length):
-            lat2 = float(DicGraph[x][0])
-            lng2 = float(DicGraph[x][1])
+            lat2 = DicGraph[x][0]
+            lng2 = DicGraph[x][1]
             if adjMatrix[y][x] == 0:
-                dist = (int(Distance(lat1, lng1, lat2, lng2)))
+                dist = (float(Distance(lat1, lng1, lat2, lng2)))
                 if dist == 0 or dist > gass:
                     adjMatrix[y][x] = float('inf')
                     adjMatrix[x][y] = float('inf')
@@ -90,7 +90,7 @@ def createDic():
         name = ""
         for i in tempName:
             name = name + i + " "
-        arr = [line[0], line[1], name.rstrip()]
+        arr = [float(line[0]), float(line[1]), name.rstrip()]
         DicGraph.update({x: arr})
     return(DicGraph)
 
@@ -99,7 +99,7 @@ case_index = 0
 while case_index != cases:
     cities = int(sys.stdin.readline()) #number of cities
     DicGraph = createDic()
-    gass = int(sys.stdin.readline())
+    gass = float(sys.stdin.readline())
     adjMatrix = AdjacencyMatrix(cities, gass, DicGraph)
     distance = Dijkstra(adjMatrix, cities, DicGraph)
     print(distance)
